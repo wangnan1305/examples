@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>性能测试</title>
+</head>
+<body>
+<h2>方法一用时<span>  计算中...</span></h2>
+<h2>方法二用时<span>  计算中...</span></h2>
+<h2>方法三用时<span>  计算中...</span></h2>
+<h2>方法四用时<span>  计算中...</span></h2>
+<script src="js/jquery-1.11.1.min.js"></script>
+<script>
+    Array.prototype.unique4 = function(arr){
+        this.array = arr;
+        this.array.sort();
+        var newArray = [arr[0]];
+        for(var i = 1;i<this.array.length;i++){
+            if(this.array[i] != newArray[newArray.length-1]){
+                newArray.push(this.array[i])
+            }
+        }
+        return newArray;
+    }
+    Array.prototype.unique3 = function(arr){
+        this.array = arr;
+        var hash = {}; //哈希表
+        var newArray = [];
+        for(var i = 0;i<this.array.length;i++){
+            if(!hash[this.array[i]]){  //开始没有的话，将这个元素打上true的标识
+                hash[this.array[i]] = true;
+                newArray.push(this.array[i])
+            }
+        }
+        return newArray;
+    }
+    Array.prototype.unique2 = function(arr){
+        var newArray = [arr[0]]; //从第1项开始，把第0项直接放入新数组中
+        this.array = arr;
+        for(var i = 1;i<this.array.length;i++){
+            if(this.array.indexOf(this.array[i]) === i){  //indexOf有性能问题
+                //利用indexOf的特性，只返回最先匹配的那个元素的索引
+                //所以可以利用this.array[i]在this.array中的位置不等于当前i值那么一定是重复的,等于就push进去
+                newArray.push(this.array[i])
+            }
+        }
+        return newArray;
+    }
+    Array.prototype.unique = function(arr){
+        var newArray = []; //建一个新数组  
+        //这里也可以直接newArray = [arr[0]],下面的i就从1开始循环
+        this.array = arr;
+        for(var i = 0;i<this.array.length;i++){ 
+            if(newArray.indexOf(this.array[i]) === -1){  //indexOf有性能问题
+                newArray.push(this.array[i])  //如果新数组中没有则添加
+            }
+        }
+        return newArray;
+    }
+    window.onload = function(){
+        var arr =[];
+        for(var i = 0;i<100000;i++){
+            arr.push(parseInt(Math.random()*i))
+        }
+
+        var aH2 = document.getElementsByTagName("h2");
+        
+        //方法1
+        var timeNow = new Date().getTime();
+        arr.unique(arr);
+        var time = new Date().getTime() - timeNow;
+        aH2[0].getElementsByTagName("span")[0].innerHTML = ' '+time + '毫秒'
+        
+        
+        //方法2
+        var timeNow2 = new Date().getTime();
+        arr.unique2(arr);
+        var time2 = new Date().getTime() - timeNow2;
+        aH2[1].getElementsByTagName("span")[0].innerHTML = ' '+time2 + '毫秒'
+        
+        //方法3
+        var timeNow3 = new Date().getTime();
+        arr.unique3(arr);
+        var time3 = new Date().getTime() - timeNow3;
+        aH2[2].getElementsByTagName("span")[0].innerHTML = ' '+time3 + '毫秒'
+
+        //方法4
+        var timeNow4 = new Date().getTime();
+        arr.unique4(arr);
+        var time4 = new Date().getTime() - timeNow4;
+        aH2[3].getElementsByTagName("span")[0].innerHTML = ' '+time4 + '毫秒'
+    }
+</script>
+</body>
+</html>
