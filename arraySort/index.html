@@ -63,8 +63,6 @@
         for(var i = 0;i<100000;i++){
             arr.push(parseInt(Math.random()*i))
         }
-
-        var aH2 = document.getElementsByTagName("h2");
         var dtd = $.Deferred();
         //方法1
         var test1 = function(dtd){
@@ -72,10 +70,10 @@
             var timeNow = new Date().getTime();
             arr.unique(arr);
             var time = new Date().getTime() - timeNow;
-            aH2[0].getElementsByTagName("span")[0].innerHTML = ' '+time + '毫秒';
-
+            $("h2 span").eq(0).text(' '+time + '毫秒');
             dtd.resolve();
-            console.log('方法一  ' + time +'毫秒')
+            console.log('方法一  ' + time +'毫秒');
+             window.location.hash = '#'+time;
             return dtd;
         }
         //方法3
@@ -83,10 +81,10 @@
             var timeNow3 = new Date().getTime();
             arr.unique3(arr);
             var time3 = new Date().getTime() - timeNow3;
-            aH2[2].getElementsByTagName("span")[0].innerHTML = ' '+time3 + '毫秒';
-            
+            $("h2 span").eq(2).text(' '+time3 + '毫秒');
             dtd.resolve();
             console.log('方法三  '+time3+'毫秒');
+            window.location.hash = '#'+time3;
             return dtd;
         }
         //方法4
@@ -94,10 +92,11 @@
             var timeNow4 = new Date().getTime();
             arr.unique4(arr);
             var time4 = new Date().getTime() - timeNow4;
-            aH2[3].getElementsByTagName("span")[0].innerHTML = ' '+time4 + '毫秒';
+            $("h2 span").eq(3).text(' '+time4 + '毫秒');
        
             dtd.resolve();
             console.log('方法四  '+time4 +'毫秒');
+             window.location.hash = '#'+time4;
             return dtd;
         }
         //方法2
@@ -105,9 +104,9 @@
             var timeNow2 = new Date().getTime();
             arr.unique2(arr);
             var time2 = new Date().getTime() - timeNow2;
-            aH2[1].getElementsByTagName("span")[0].innerHTML = ' '+time2 + '毫秒';
+            $("h2 span").eq(1).text(' '+time2 + '毫秒');
             console.log('方法二  '+time2+'毫秒');
-            
+             window.location.hash = '#'+time2;
         }
         $.when(test3(dtd))
         .done(function(){
